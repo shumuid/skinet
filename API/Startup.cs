@@ -1,3 +1,4 @@
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,7 +22,10 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            // singleton > scoped > transient lifetime
+            // http request gets sent => new instance of the controller and repository is created
+            // once the request is done the controller and repository instances are discarded
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
